@@ -265,15 +265,6 @@ async def main():
     print(f"🚀 Chunk size: {CHUNK_SIZE/(1024*1024):.1f} MB (OPTIMIZED)")
     print(f"🔧 Max workers: {MAX_WORKERS}")
     print(f"💾 Socket buffers: {SOCKET_BUFFER_SIZE//1024}KB")
-    print("\n🎯 ViaPhoto UI IMPROVEMENTS:")
-    print("   🧡 Orange dark theme for better visibility")
-    print("   📱 Simplified mobile-first layout")
-    print("   📋 Real-time photo queue with status updates")
-    print("   ✅ Individual 'Uploaded' status per photo")
-    print("   🎨 Smooth animations and transitions")
-    print("   📊 Clean stats display")
-    print("   🚀 Enhanced dropzone experience")
-    print("\n💾 PHOTOS SAVED IMMEDIATELY - No more data loss risk!")
     print("Press Ctrl+C to stop\n")
     
     try:
@@ -288,9 +279,6 @@ async def main():
         await site.start()
         
         print("✅ ViaPhoto server started successfully!")
-        print("🧡 Orange dark theme UI ready!")
-        print("📱 Real-time photo queue active!")
-        print("💾 Photos will be saved immediately as they arrive!")
         
         # Keep the server running
         await asyncio.Event().wait()

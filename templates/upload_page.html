@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📱 ViaPhoto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📱 ViaPhoto</h1>
+        <div class="subtitle">
+            ⚡ Ultra-fast photo uploads • 💾 Real-time saving • 🚀 Zero data loss
+        </div>
+        
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">📸</div>
+            <input type="file" id="photos" multiple accept="image/*" required>
+            <h3>Drop photos here or click to select</h3>
+            <p>Photos are saved immediately as they upload</p>
+        </div>
+        
+        <button class="upload-btn" id="uploadBtn" disabled>Select Photos First</button>
+        
+        <div class="speed-display" id="speedDisplay">
+            <div class="speed-value" id="speedValue">0.0</div>
+            <div class="speed-label">MB/s</div>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Ready to upload</div>
+        </div>
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-value" id="uploadedFiles">0</div>
+                <div class="stat-label">Photos Saved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="uploadedSize">0 MB</div>
+                <div class="stat-label">Data Saved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="timeElapsed">0s</div>
+                <div class="stat-label">Upload Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="throughput">0 MB/s</div>
+                <div class="stat-label">Avg Speed</div>
+            </div>
+        </div>
+        
+        <div class="photo-queue" id="photoQueue">
+            <div class="queue-header">📋 Photo Queue</div>
+            <div class="queue-list" id="queueList"></div>
+            <div class="queue-summary" id="queueSummary">No photos selected</div>
+        </div>
+        
+        <div class="results" id="results"></div>
+    </div>
+
+    <script src="/static/js/upload.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📱 ViaPhoto Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/gallery.css">
+    <link rel="stylesheet" href="/static/css/filters.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📱 ViaPhoto Gallery</h1>
+        <div class="subtitle">
+            🖼️ View your uploaded photos
+        </div>
+        
+        <div class="gallery-controls">
+            <a href="/" class="back-btn">Back to Upload</a>
+            <div class="gallery-stats">{{ total_photos }} Photos • {{ total_size_formatted }}</div>
+        </div>
+        
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="sortBy">Sort by:</label>
+                <select id="sortBy" class="filter-select">
+                    <option value="date-desc">Date (Newest)</option>
+                    <option value="date-asc">Date (Oldest)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="size-desc">Size (Largest)</option>
+                    <option value="size-asc">Size (Smallest)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="gallery-grid" id="galleryGrid">
+            {% if photos %}
+                {% for photo in photos %}
+                <div class="gallery-item" data-name="{{ photo.name }}" data-size="{{ photo.size }}" data-date="{{ photo.date }}" data-type="{% if photo.is_image %}image{% else %}other{% endif %}">
+                    <a href="{{ photo.path }}" target="_blank" class="gallery-link">
+                        {% if photo.is_image %}
+                        <img src="{{ photo.path }}" alt="{{ photo.name }}" class="gallery-thumbnail">
+                        {% else %}
+                        <div class="file-thumbnail">
+                            <div class="file-icon">📄</div>
+                            <div class="file-ext">{{ photo.extension }}</div>
+                        </div>
+                        {% endif %}
+                        <div class="photo-info">
+                            <div class="photo-name">{{ photo.name }}</div>
+                            <div class="photo-size">{{ photo.size_formatted }}</div>
+                            <div class="photo-date">{{ photo.date_formatted }}</div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-gallery">
+                    <div class="empty-icon">📷</div>
+                    <h3>No photos found</h3>
+                    <p>Upload some photos first!</p>
+                    <a href="/" class="upload-btn">Go to Upload</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="/static/js/gallery.js"></script>
+</body>
+</html>

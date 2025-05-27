@@ -74,6 +74,84 @@ class ViaPhotoServer:
     async def handle_upload_page(self, request):
         """Serve ViaPhoto upload interface with orange dark theme"""
         return aiohttp_jinja2.render_template('upload_page.html', request, {})
+    
+    async def handle_gallery_page(self, request):
+        """Serve ViaPhoto gallery page to view uploaded photos"""
+        photos = []
+        total_size = 0
+        
+        try:
+            # Get all files in the upload directory
+            files = os.listdir(UPLOAD_DIR)
+            
+            # Filter out hidden files and directories
+            files = [f for f in files if not f.startswith('.') and os.path.isfile(os.path.join(UPLOAD_DIR, f))]
+            
+            # Sort files by modification time (newest first)
+            files.sort(key=lambda x: os.path.getmtime(os.path.join(UPLOAD_DIR, x)), reverse=True)
+            
+            for filename in files:
+                file_path = os.path.join(UPLOAD_DIR, filename)
+                
+                # Get file stats
+                stats = os.stat(file_path)
+                size = stats.st_size
+                modified_time = stats.st_mtime
+                
+                # Format size
+                if size < 1024:
+                    size_formatted = f"{size} B"
+                elif size < 1024 * 1024:
+                    size_formatted = f"{size/1024:.1f} KB"
+                else:
+                    size_formatted = f"{size/(1024*1024):.1f} MB"
+                
+                # Format date
+                date_formatted = time.strftime("%Y-%m-%d %H:%M", time.localtime(modified_time))
+                
+                # Get file extension
+                _, extension = os.path.splitext(filename)
+                extension = extension.lstrip('.')
+                
+                # Check if it's an image file
+                is_image = extension.lower() in ['jpg', 'jpeg', 'png', 'gif', 'webp']
+                
+                # Create a web-accessible path
+                web_path = f"/photos/{filename}"
+                
+                photos.append({
+                    'name': filename,
+                    'path': web_path,
+                    'size': size,
+                    'size_formatted': size_formatted,
+                    'date': modified_time,
+                    'date_formatted': date_formatted,
+                    'extension': extension.upper(),
+                    'is_image': is_image
+                })
+                
+                total_size += size
+            
+            # Format total size
+            if total_size < 1024:
+                total_size_formatted = f"{total_size} B"
+            elif total_size < 1024 * 1024:
+                total_size_formatted = f"{total_size/1024:.1f} KB"
+            else:
+                total_size_formatted = f"{total_size/(1024*1024):.1f} MB"
+                
+        except Exception as e:
+            print(f"Error loading gallery: {e}")
+            photos = []
+            total_size_formatted = "0 B"
+        
+        context = {
+            'photos': photos,
+            'total_photos': len(photos),
+            'total_size_formatted': total_size_formatted
+        }
+        
+        return aiohttp_jinja2.render_template('gallery.html', request, context)
         
 
     async def handle_upload(self, request):
@@ -248,8 +326,12 @@ async def create_app():
     # Add routes
     app.add_routes([
         web.get('/', server.handle_upload_page),
+        web.get('/gallery', server.handle_gallery_page),
         web.post('/upload', server.handle_upload),
     ])
+    
+    # Serve uploaded photos statically
+    app.router.add_static('/photos/', path=UPLOAD_DIR, name='photos')
     
     return app
 

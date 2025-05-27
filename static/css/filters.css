@@ -1,0 +1,87 @@
+/* Filter Controls */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 140, 0, 0.2);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-group label {
+    color: #cccccc;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    background: rgba(45, 45, 45, 0.9);
+    color: #ffffff;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 140px;
+    outline: none;
+}
+
+.filter-select:focus {
+    border-color: #ff8c00;
+    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+}
+
+.filter-select option {
+    background: #2d2d2d;
+    color: #ffffff;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: rgba(255, 140, 0, 0.2);
+    color: #ff8c00;
+    border: 1px solid rgba(255, 140, 0, 0.5);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 140, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(255, 140, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-controls {
+        flex-direction: column;
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-select {
+        flex: 1;
+    }
+    
+    .filter-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
